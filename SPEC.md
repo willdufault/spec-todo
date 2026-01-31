@@ -18,7 +18,7 @@ A simple, web-based todo list application built with React and TypeScript, desig
 
 - **React 19 (latest)** - UI library
 - **TypeScript** - Type safety
-- **TailwindCSS** - Styling
+- **TailwindCSS** - Styling (https://tailwindcss.com/docs/installation/using-vite) - Vite plugin integration
 - **Vite** - Build tool (recommended)
 - **uuid** + **@types/uuid** - UUID generation for list and task IDs
 
@@ -114,14 +114,10 @@ Three-panel desktop layout with fixed dimensions:
 
 ### State Management
 
-**Global State in App.tsx:**
-
 ```typescript
 const [lists, setLists] = useState<Record<string, TaskList>>({})
 const [selectedList, setSelectedList] = useState<string>("Todo")
 ```
-
-**Local State in ListView.tsx:**
 
 ```typescript
 const [selectedTask, setSelectedTask] = useState<TaskItem | null>(null)
@@ -138,7 +134,6 @@ const [selectedTask, setSelectedTask] = useState<TaskItem | null>(null)
 ### Data Structure
 
 ```typescript
-// Status enum using erasable syntax standards (no 'enum' keyword)
 const Status = {
   ToDo: "todo",
   Completed: "completed",
@@ -146,20 +141,17 @@ const Status = {
 
 type Status = (typeof Status)[keyof typeof Status]
 
-// Individual task item within a list
 type TaskItem = {
-  id: string // UUIDv4 identifier for the task (used as React key)
-  text: string // Task description/text
-  status: Status.Completed | Status.ToDo // Task completion status
+  id: string
+  text: string
+  status: Status.Completed | Status.ToDo
 }
 
-// Individual list containing tasks
 type TaskList = {
-  id: string // UUIDv4 identifier for the list
-  tasks: TaskItem[] // Array of tasks in this list
+  id: string
+  tasks: TaskItem[]
 }
 
-// Main state type - direct Record type, no wrapper needed
 type ListsState = Record<string, TaskList>
 ```
 
@@ -177,7 +169,7 @@ type ListsState = Record<string, TaskList>
   <TopBar />
   <div>
     <LeftSidebar />
-    <ListView /> {/* Contains main content + right sidebar */}
+    <ListView />
   </div>
 </div>
 ```
@@ -204,18 +196,12 @@ type ListsState = Record<string, TaskList>
 
 ### Component Props Pattern
 
-**App.tsx → Children:**
-
 - **LeftSidebar**: receives (lists, selectedList, setSelectedList)
 - **ListView**: receives (currentList, setCurrentList)
 - **TopBar**: no props needed (static content)
 
-**ListView Internal State:**
-
 - **selectedTask**: Local state for task selection
 - **RightSidebar**: Receives (selectedTask) as child component
-
-**No Prop Drilling:**
 
 - Selected task state managed entirely within ListView
 - RightSidebar accesses selected task as direct child
@@ -270,21 +256,15 @@ const defaultData: Record<string, TaskList> = {
 
 ### UUID Usage
 
-Direct imports in components that need UUID generation:
-
 ```typescript
 import { v4 as uuidv4 } from "uuid"
 
-// Usage
 const newTask = {
   id: uuidv4(),
   text: "Task text",
   status: Status.ToDo,
 }
 ```
-
-- No separate utility file needed
-- Direct import pattern throughout components
 
 ## Non-Functional Requirements
 
@@ -360,6 +340,10 @@ src/
 └── App.css
 
 ```
+
+## External Resources
+
+- **TailwindCSS with Vite Plugin** - https://tailwindcss.com/docs/installation/using-vite - Official Vite plugin installation guide with seamless integration for React frameworks
 
 ## Success Criteria
 
