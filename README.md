@@ -1,4 +1,4 @@
-# OpenTodo - Spec Coding Test
+spec-todo - Spec Coding Test
 
 A simple todo list application built with React + TypeScript, testing an AI-driven "spec coding" development methodology.
 
